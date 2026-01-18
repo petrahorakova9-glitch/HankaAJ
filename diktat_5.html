@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pravopisný trenažér: Kompletných 5 diktátov</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --success: #22c55e;
+            --error: #ef4444;
+            --bg: #f8fafc;
+        }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.8; padding: 20px; background-color: var(--bg); color: #1e293b; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { 
+            padding: 12px 24px; cursor: pointer; border: none; background: #edf2f7; 
+            font-weight: 600; color: #4a5568; border-radius: 8px 8px 0 0; transition: 0.2s;
+            white-space: nowrap; margin-right: 2px;
+        }
+        .tab-btn:hover { background: #e2e8f0; }
+        .tab-btn.active { background: var(--primary); color: white; }
+
+        .tab-content { display: none; padding: 20px 0; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .text-block { font-size: 1.25rem; margin-bottom: 30px; text-align: justify; line-height: 2.2; }
+        input { 
+            width: 34px; height: 32px; text-align: center; border: 2px solid #cbd5e0; 
+            border-radius: 6px; font-size: 1.1rem; font-weight: bold; margin: 0 1px;
+            padding: 0; cursor: help;
+        }
+        .correct { background-color: #dcfce7 !important; border-color: var(--success) !important; color: #166534 !important; }
+        .incorrect { background-color: #fee2e2 !important; border-color: var(--error) !important; color: #991b1b !important; }
+        
+        .controls { display: flex; align-items: center; gap: 20px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        button.check-btn { 
+            padding: 12px 25px; background-color: var(--primary); color: white; border: none; 
+            border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem;
+        }
+        button.check-btn:hover { background-color: #2563eb; }
+        .score-display { font-weight: bold; font-size: 1.1rem; color: #4a5568; }
+        .info-note { font-size: 0.95rem; color: #64748b; margin-bottom: 15px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Pravopisný trenažér</h1>
+    <p class="info-note">Návod: Doplňte i/y/í/ý. Po stlačení tlačidla sa chybné odpovede opravia a po prejdení myšou nad políčko uvidíte pravidlo.</p>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'diktat1')">Diktát 1</button>
+        <button class="tab-btn" onclick="openTab(event, 'diktat2')">Diktát 2</button>
+        <button class="tab-btn" onclick="openTab(event, 'diktat3')">Diktát 3</button>
+        <button class="tab-btn" onclick="openTab(event, 'diktat4')">Diktát 4</button>
+        <button class="tab-btn" onclick="openTab(event, 'diktat5')">Diktát 5</button>
+    </div>
+
+    <div id="diktat1" class="tab-content active">
+        <div class="text-block">
+            Riaditeľk<input data-ans="i" data-rule="Vzor matkin">no nadšenie pre zvieratá nás m<input data-ans="i" data-rule="Nie je vybrané slovo">lo potešilo. V utorok ráno sme s<input data-ans="i" data-rule="Zámeno si"> pr<input data-ans="i" data-rule="Predpona pri-">niesl<input data-ans="i" data-rule="Minulý čas pl."> našich miláčikov do škol<input data-ans="y" data-rule="N pl. vzor žena">. Jank<input data-ans="i" data-rule="Vzor matkin">na mačka bola oblečená v zelenom svetr<input data-ans="i" data-rule="L sg. vzor stroj">. Mačk<input data-ans="i" data-rule="Vzor matkin">n v<input data-ans="ý" data-rule="Predpona vy-">raz bol utešen<input data-ans="ý" data-rule="Vzor pekný">. Nazval<input data-ans="i" data-rule="Minulý čas pl."> sme ju modelka. Modelk<input data-ans="i" data-rule="Vzor matkin">ne póz<input data-ans="y" data-rule="N pl. vzor žena"> v<input data-ans="y" data-rule="Predpona vy-">volával<input data-ans="i" data-rule="Minulý čas pl."> smiech. Mart<input data-ans="i" data-rule="Meno Martin">n pr<input data-ans="i" data-rule="Predpona pri-">šiel so svojimi psam<input data-ans="i" data-rule="Prípona -mi">. Zo začiatku pôsobil<input data-ans="i" data-rule="Minulý čas pl."> ako nebezpečné zver<input data-ans="y" data-rule="N pl. vzor dub">, zúr<input data-ans="i" data-rule="Nie je vybrané slovo">vé a vrčiace ps<input data-ans="y" data-rule="N pl. vzor chlap (neživé)">. Zuzank<input data-ans="i" data-rule="Vzor matkin">no nadšenie zo žab<input data-ans="í" data-rule="Vzor páví">ch kamarátok všetci nepochopil<input data-ans="i" data-rule="Minulý čas pl.">. Niektor<input data-ans="í" data-rule="Zámeno (N pl.)"> žabk<input data-ans="i" data-rule="Vzor matkin">n prechodn<input data-ans="ý" data-rule="Vzor pekný"> domov obchádzal<input data-ans="i" data-rule="Minulý čas pl.">. Ja som s<input data-ans="i" data-rule="Zámeno si"> zbl<input data-ans="í" data-rule="Vybrané slovo (blízko)">zka pozrela aj kukučk<input data-ans="i" data-rule="Vzor matkin">no perie. Kamarátk<input data-ans="i" data-rule="Vzor matkin">n nápad bol skvel<input data-ans="ý" data-rule="Vzor pekný">, aj keď nepr<input data-ans="i" data-rule="Predpona pri-">niesla žiadne zver<input data-ans="y" data-rule="N pl. vzor dub">. Na stôl poukladala produkt<input data-ans="y" data-rule="N pl. vzor dub"> s včeľou kašičkou.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat1')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+
+    <div id="diktat2" class="tab-content">
+        <div class="text-block">
+            Ryb<input data-ans="í" data-rule="Vzor páví"> tuk je veľmi zdrav<input data-ans="ý" data-rule="Vzor pekný">. Katk<input data-ans="i" data-rule="Vzor matkin">n<input data-ans="i" data-rule="N pl. vzor matkin"> spolužiac<input data-ans="i" data-rule="N pl. vzor chlap"> v<input data-ans="y" data-rule="Vybrané slovo (vyhrať)">hral<input data-ans="i" data-rule="Minulý čas pl."> majstrovsk<input data-ans="ý" data-rule="Vzor pekný"> zápas. Doma som s<input data-ans="i" data-rule="Zámeno si"> om<input data-ans="y" data-rule="Vybrané slovo (mýliť sa)">lom zbal<input data-ans="i" data-rule="Nie je vybrané slovo">l do tašk<input data-ans="y" data-rule="G sg. vzor žena"> sestr<input data-ans="i" data-rule="Vzor matkin">nu učebnicu slovenčin<input data-ans="y" data-rule="G sg. vzor žena">. V lese nás v<input data-ans="y" data-rule="Vybrané slovo (vystrašiť)">strašil netopier<input data-ans="í" data-rule="Vzor páví"> piskot. Po ceste pobehoval kamarátk<input data-ans="i" data-rule="Vzor matkin">n pes. Na f<input data-ans="y" data-rule="Cudzie slovo (fyzika)">zike sme sa učil<input data-ans="i" data-rule="Minulý čas pl."> aj o orľom lete. Vierk<input data-ans="i" data-rule="Vzor matkin">na radosť nemala konca. Na per<input data-ans="y" data-rule="N pl. vzor žena"> s<input data-ans="i" data-rule="Zámeno si"> dám jelen<input data-ans="í" data-rule="Vzor páví"> loj. Včera som s<input data-ans="i" data-rule="Zámeno si"> požičal otcovo auto. Moja stará mama b<input data-ans="ý" data-rule="Vybrané slovo (bývať)">va na Hodžovej ulic<input data-ans="i" data-rule="G sg. vzor ulica">. V lese sme objav<input data-ans="i" data-rule="Nie je vybrané slovo">l<input data-ans="i" data-rule="Minulý čas pl."> líšč<input data-ans="í" data-rule="Vzor páví"> brloh. Mám rád aj šalát s vajíčkom a losos<input data-ans="í" data-rule="Vzor páví">m mäsom. S Katk<input data-ans="i" data-rule="Vzor matkin">ným<input data-ans="i" data-rule="Inštrumentál vzor matkin"> rod<input data-ans="i" data-rule="Rodina">čm<input data-ans="i" data-rule="Prípona -mi"> som sa ešte nestretol.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat2')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+
+    <div id="diktat3" class="tab-content">
+        <div class="text-block">
+            Otcovi znám<input data-ans="i" data-rule="N pl. vzor chlap"> z mesta chcel<input data-ans="i" data-rule="Minulý čas pl."> vidieť okolie. Mam<input data-ans="i" data-rule="Vzor matkin">n nápad pozrieť s<input data-ans="i" data-rule="Zámeno si"> pr<input data-ans="í" data-rule="Nie je vybrané slovo">rodu sa im páč<input data-ans="i" data-rule="Minulý čas sg.">l. V korune stromu znel vtáč<input data-ans="í" data-rule="Vzor páví"> spev. Nad lúkam<input data-ans="i" data-rule="Prípona -mi"> poletoval<input data-ans="i" data-rule="Minulý čas pl."> motýl<input data-ans="i" data-rule="Nie je vybrané slovo">e rodink<input data-ans="y" data-rule="N pl. vzor žena"> a hľadal<input data-ans="i" data-rule="Minulý čas pl."> kvet<input data-ans="y" data-rule="N pl. vzor dub">. Lúk<input data-ans="y" data-rule="N pl. vzor žena"> bol<input data-ans="i" data-rule="Minulý čas pl."> posiate krtím<input data-ans="i" data-rule="Vzor páví"> kopčekm<input data-ans="i" data-rule="Prípona -mi">. Z os<input data-ans="í" data-rule="Vzor páví">ch hniezd v dut<input data-ans="i" data-rule="Nie je vybrané slovo">nách stromu v<input data-ans="y" data-rule="Predpona vy-">letoval<input data-ans="i" data-rule="Minulý čas pl."> rozhnevané os<input data-ans="y" data-rule="N pl. vzor žena">. Obr<input data-ans="i" data-rule="Nie je vybrané slovo">e mraveniská ukr<input data-ans="ý" data-rule="Vybrané slovo (kryť)">vajú vo vnútr<input data-ans="i" data-rule="L sg. vzor stroj"> drobné chodbičk<input data-ans="y" data-rule="N pl. vzor žena">. V diaľke bolo počuť mačk<input data-ans="i" data-rule="Vzor matkin">no mraučanie. Vo včeľom roj<input data-ans="i" data-rule="L sg. vzor stroj"> to hučalo ako v úl<input data-ans="i" data-rule="L sg. vzor stroj">. Na stráňach sa pásl<input data-ans="i" data-rule="Minulý čas pl."> ovč<input data-ans="i" data-rule="Vzor páví">e stád<input data-ans="a" data-rule="N pl. vzor mesto">. Mart<input data-ans="i" data-rule="Meno Martin">nov<input data-ans="ý" data-rule="D sg. vzor matkin">m snom je pokračovať v otcov<input data-ans="ý" data-rule="L pl. vzor matkin">ch šľapajách.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat3')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+
+    <div id="diktat4" class="tab-content">
+        <div class="text-block">
+            Najmenšie mláďa porod<input data-ans="í" data-rule="Slovesná koncovka"> kengura červená. Kengur<input data-ans="i" data-rule="Vzor páví">e mláďa je veľké as<input data-ans="i" data-rule="Príslovka"> ako oriešok. Hmotnosť a rozmer<input data-ans="y" data-rule="N pl. vzor dub"> pštros<input data-ans="í" data-rule="Vzor páví">ch vajec sú obd<input data-ans="i" data-rule="Nie je vybrané slovo">vuhodné. Orl<input data-ans="i" data-rule="Vzor páví">e hniezda sa rokm<input data-ans="i" data-rule="Prípona -mi"> zväčšujú a môžu dosiahnuť šírku aj dva metre. V bocian<input data-ans="í" data-rule="Vzor páví">ch zobákoch končia drobné vodné živočích<input data-ans="y" data-rule="N pl. vzor dub">. Okolo bobr<input data-ans="í" data-rule="Vzor páví">ch hrádz<input data-ans="í" data-rule="G pl. vzor dlaň"> v<input data-ans="i" data-rule="Nie je vybrané slovo">dno strom<input data-ans="y" data-rule="N pl. vzor dub"> olúpané z kôr<input data-ans="y" data-rule="G sg. vzor žena">. Šimpanz<input data-ans="í" data-rule="Vzor páví"> samček dospieva v ôsmom roku. Medved<input data-ans="i" data-rule="Vzor páví">a stopa v lese neznač<input data-ans="í" data-rule="Slovesná koncovka"> nič dobré. V žraloč<input data-ans="í" data-rule="Vzor páví">ch zuboch je veľká s<input data-ans="i" data-rule="Nie je vybrané slovo">la. Ryb<input data-ans="í" data-rule="Vzor páví"> tuk obsahuje veľa v<input data-ans="i" data-rule="Vitamín">tam<input data-ans="í" data-rule="Vitamín">nu D.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat4')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+
+    <div id="diktat5" class="tab-content">
+        <div class="text-block">
+            Petra našla v lese malé líšč<input data-ans="i" data-rule="Vzor páví">e mláďatko. Chcela naň hod<input data-ans="i" data-rule="Infinitív">ť otcov s<input data-ans="i" data-rule="Nie je vybrané slovo">v<input data-ans="ý" data-rule="Vzor pekný"> z<input data-ans="i" data-rule="Nie je vybrané slovo">mn<input data-ans="í" data-rule="Vzor pekný">k a vziať ho domov. Petr<input data-ans="i" data-rule="Vzor matkin (N pl.)">n<input data-ans="i" data-rule="Vzor matkin (N pl.)"> dobr<input data-ans="í" data-rule="N pl. vzor pekný"> pr<input data-ans="i" data-rule="Nie je vybrané slovo">atel<input data-ans="i" data-rule="N pl. vzor chlap">a to však nedovol<input data-ans="i" data-rule="Minulý čas pl.">l<input data-ans="i" data-rule="Minulý čas pl.">. Z čerstv<input data-ans="ý" data-rule="G pl. vzor pekný">ch stôp v<input data-ans="y" data-rule="Predpona vy-">tušil<input data-ans="i" data-rule="Minulý čas pl."> líšk<input data-ans="i" data-rule="Vzor matkin">nu bl<input data-ans="í" data-rule="Vybrané slovo (blízko)">zkosť. Mláďa isto patr<input data-ans="í" data-rule="Sloveso"> tej ryšavej, ktorá chod<input data-ans="í" data-rule="Sloveso"> za susedov<input data-ans="ý" data-rule="Vzor matkin (Inštr. pl.)">m<input data-ans="i" data-rule="Prípona -mi"> sliepkam<input data-ans="i" data-rule="Prípona -mi">. Sníva o kurac<input data-ans="í" data-rule="Vzor páví">ch nôžkach, ale ľahko ju v<input data-ans="y" data-rule="Predpona vy-">ľaká ps<input data-ans="í" data-rule="Vzor páví"> štekot. Raz takmer neušla ostr<input data-ans="ý" data-rule="D pl. vzor pekný">m zubom Denisovho Azora. Zachrán<input data-ans="i" data-rule="Minulý čas sg.">l ju bzukot z os<input data-ans="í" data-rule="Vzor páví">ch hniezd. Kamaráti rozoznajú zvierac<input data-ans="i" data-rule="Vzor páví">e stop<input data-ans="y" data-rule="N pl. vzor žena">. Odhal<input data-ans="i" data-rule="Sloveso">a návštevu diviačej rodink<input data-ans="y" data-rule="G sg. vzor žena"> v ded<input data-ans="i" data-rule="Nie je vybrané slovo">ne alebo medveďovo v<input data-ans="y" data-rule="Predpona vy-">číňan<input data-ans="i" data-rule="Vzor vysvedčenie">e pr<input data-ans="i" data-rule="Predložka pri"> smetn<input data-ans="ý" data-rule="L sg. vzor pekný">ch košoch. Spoznajú aj kun<input data-ans="í" data-rule="Vzor páví">ch votrelcov. Zvieratám však neublíž<input data-ans="i" data-rule="Sloveso">a, neplaš<input data-ans="i" data-rule="Sloveso">a ich.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat5')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Funkcia na prepínanie tabov
+    function openTab(evt, tabId) {
+        var contents = document.getElementsByClassName("tab-content");
+        for (var i = 0; i < contents.length; i++) {
+            contents[i].classList.remove("active");
+        }
+        var buttons = document.getElementsByClassName("tab-btn");
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
+        }
+        document.getElementById(tabId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    // Funkcia na kontrolu a opravu
+    function check(containerId) {
+        var container = document.getElementById(containerId);
+        var inputs = container.querySelectorAll('input');
+        var score = 0;
+
+        inputs.forEach(function(input) {
+            var userAnswer = input.value.trim().toLowerCase();
+            var correctAnswer = input.getAttribute('data-ans').toLowerCase();
+            var rule = input.getAttribute('data-rule');
+
+            if (userAnswer === correctAnswer) {
+                input.classList.remove('incorrect');
+                input.classList.add('correct');
+                score++;
+            } else {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                input.value = correctAnswer; // Automatická oprava
+            }
+            // Pridanie vysvetlivky ako tooltipu
+            input.setAttribute('title', rule);
+        });
+
+        var display = container.querySelector('.score-display');
+        var percent = Math.round((score / inputs.length) * 100);
+        display.innerText = "Úspešnosť: " + score + " / " + inputs.length + " (" + percent + "%)";
+    }
+</script>
+
+</body>
+</html>
