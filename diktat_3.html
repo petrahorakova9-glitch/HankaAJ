@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slovenský pravopis: Interaktívne diktáty</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --success: #22c55e;
+            --error: #ef4444;
+            --bg: #f8fafc;
+        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.8; padding: 20px; background-color: var(--bg); color: #1e293b; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; overflow-x: auto; }
+        .tab-btn { 
+            padding: 10px 20px; cursor: pointer; border: none; background: none; 
+            font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; transition: 0.2s;
+            white-space: nowrap;
+        }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .text-block { font-size: 1.25rem; margin-bottom: 30px; text-align: justify; }
+        input { 
+            width: 30px; height: 30px; text-align: center; border: 2px solid #cbd5e0; 
+            border-radius: 6px; font-size: 1.1rem; font-weight: bold; margin: 0 1px;
+            padding: 0;
+        }
+        .correct { background-color: #dcfce7; border-color: var(--success); color: #166534; }
+        .incorrect { background-color: #fee2e2; border-color: var(--error); color: #991b1b; }
+        .controls { display: flex; align-items: center; gap: 20px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        button.check-btn { 
+            padding: 12px 25px; background-color: var(--primary); color: white; border: none; 
+            border-radius: 8px; cursor: pointer; font-weight: 600; 
+        }
+        button.check-btn:hover { background-color: #2563eb; }
+        .score-display { font-weight: bold; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Pravopisný trenažér</h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'diktat1')">Diktát č. 1</button>
+        <button class="tab-btn" onclick="openTab(event, 'diktat2')">Diktát č. 2</button>
+        <button class="tab-btn" onclick="openTab(event, 'diktat3')">Diktát č. 3</button>
+        <button class="tab-btn" onclick="openTab(event, 'diktat4')">Diktát č. 4</button>
+    </div>
+
+    <div id="diktat1" class="tab-content active">
+        <div class="text-block">
+            Riaditeľk<input data-ans="i">no nadšenie pre zvieratá nás m<input data-ans="i">lo potešilo. V utorok ráno sme s<input data-ans="i"> pr<input data-ans="i">niesl<input data-ans="i"> našich miláčikov do škol<input data-ans="y">. Jank<input data-ans="i">na mačka bola oblečená v zelenom svetr<input data-ans="i">. Mačk<input data-ans="i">n v<input data-ans="ý">raz bol utešen<input data-ans="ý">. Nazval<input data-ans="i"> sme ju modelka. Modelk<input data-ans="i">ne póz<input data-ans="y"> v<input data-ans="y">volával<input data-ans="i"> smiech. Mart<input data-ans="i">n pr<input data-ans="i">šiel so svojimi psam<input data-ans="i">. Zo začiatku pôsobili ako nebezpečné zver<input data-ans="y">, zúr<input data-ans="i">vé a vrčiace ps<input data-ans="y">. Zuzank<input data-ans="i">no nadšenie zo žab<input data-ans="í">ch kamarátok všetci nepochopil<input data-ans="i">. Niektor<input data-ans="í"> žabk<input data-ans="i">n prechodn<input data-ans="ý"> domov obchádzal<input data-ans="i">. Ja som s<input data-ans="i"> zbl<input data-ans="í">zka pozrela aj kukučk<input data-ans="i">no perie. Kamarátk<input data-ans="i">n nápad bol skvel<input data-ans="ý">, aj keď nepr<input data-ans="i">niesla žiadne zver<input data-ans="y">. Na stôl poukladala produkt<input data-ans="y"> s včeľou kašičkou.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat1')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+
+    <div id="diktat2" class="tab-content">
+        <div class="text-block">
+            Ryb<input data-ans="í"> tuk je veľmi zdrav<input data-ans="ý">. Katk<input data-ans="i">n<input data-ans="i"> spolužiac<input data-ans="i"> v<input data-ans="y">hral<input data-ans="i"> majstrovsk<input data-ans="ý"> zápas. Doma som s<input data-ans="i"> om<input data-ans="y">lom zbal<input data-ans="i">l do tašk<input data-ans="y"> sestr<input data-ans="i">nu učebnicu slovenčin<input data-ans="y">. V lese nás v<input data-ans="y">strašil netopier<input data-ans="í"> piskot. Po ceste pobehoval kamarátk<input data-ans="i">n pes. Na f<input data-ans="y">zike sme sa učil<input data-ans="i"> aj o orľom lete. Vierk<input data-ans="i">na radosť nemala konca. Na per<input data-ans="y"> s<input data-ans="i"> dám jelen<input data-ans="í"> loj. Včera som s<input data-ans="i"> požičal otcovo auto. Moja stará mama b<input data-ans="ý">va na Hodžovej ulic<input data-ans="i">. V lese sme objav<input data-ans="i">l<input data-ans="i"> líšč<input data-ans="í"> brloh. Mám rád aj šalát s vajíčkom a losos<input data-ans="í">m mäsom. S Katk<input data-ans="i">ným<input data-ans="i"> rod<input data-ans="i">čm<input data-ans="i"> som sa ešte nestretol.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat2')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+
+    <div id="diktat3" class="tab-content">
+        <div class="text-block">
+            Otcovi znám<input data-ans="i"> z mesta chcel<input data-ans="i"> vidieť okolie. Mam<input data-ans="i">n nápad pozrieť s<input data-ans="i"> pr<input data-ans="í">rodu sa im páč<input data-ans="i">l. V korune stromu znel vtáč<input data-ans="í"> spev. Nad lúkam<input data-ans="i"> poletoval<input data-ans="i"> motýl<input data-ans="i">e rodink<input data-ans="y"> a hľadal<input data-ans="i"> kvet<input data-ans="y">. Lúk<input data-ans="y"> bol<input data-ans="y"> posiate krtím<input data-ans="i"> kopčekm<input data-ans="i">. Z os<input data-ans="í">ch hniezd v dut<input data-ans="i">nách stromu v<input data-ans="y">letoval<input data-ans="i"> rozhnevané os<input data-ans="y">. Obr<input data-ans="i">e mraveniská ukr<input data-ans="ý">vajú vo vnútr<input data-ans="i"> drobné chodbičk<input data-ans="y">. V diaľke bolo počuť mačk<input data-ans="i">no mraučanie. Vo včeľom roj<input data-ans="i"> to hučalo ako v úl<input data-ans="i">. Na stráňach sa pásl<input data-ans="i"> ovč<input data-ans="i">e stád<input data-ans="a">. Mart<input data-ans="i">nov<input data-ans="ý">m snom je pokračovať v otcov<input data-ans="ý">ch šľapajách.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat3')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+
+    <div id="diktat4" class="tab-content">
+        <div class="text-block">
+            Najmenšie mláďa porod<input data-ans="í"> kengura červená. Kengur<input data-ans="i">e mláďa je veľké as<input data-ans="i"> ako oriešok. Hmotnosť a rozmer<input data-ans="y"> pštros<input data-ans="í">ch vajec sú obd<input data-ans="i">vuhodné. Orl<input data-ans="i">e hniezda sa rokm<input data-ans="i"> zväčšujú a môžu dosiahnuť šírku aj dva metre. V bocian<input data-ans="í">ch zobákoch končia drobné vodné živočích<input data-ans="y">. Okolo bobr<input data-ans="í">ch hrádz<input data-ans="í"> v<input data-ans="i">dno strom<input data-ans="y"> olúpané z kôr<input data-ans="y">. Šimpanz<input data-ans="í"> samček dospieva v ôsmom roku. Medved<input data-ans="i">a stopa v lese neznač<input data-ans="í"> nič dobré. V žraloč<input data-ans="í">ch zuboch je veľká s<input data-ans="i">la. Ryb<input data-ans="í"> tuk obsahuje veľa v<input data-ans="i">tam<input data-ans="í">nu D.
+        </div>
+        <div class="controls">
+            <button class="check-btn" onclick="check('diktat4')">Skontrolovať a opraviť</button>
+            <div class="score-display"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        let contents = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
+        let buttons = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove("active");
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    function check(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('input');
+        let score = 0;
+        inputs.forEach(input => {
+            const val = input.value.trim().toLowerCase();
+            const ans = input.getAttribute('data-ans').toLowerCase();
+            if (val === ans) {
+                input.className = 'correct';
+                score++;
+            } else {
+                input.className = 'incorrect';
+                input.value = ans;
+            }
+        });
+        const display = container.querySelector('.score-display');
+        const percent = Math.round((score / inputs.length) * 100);
+        display.innerText = `Skóre: ${score} / ${inputs.length} (${percent}%)`;
+        display.style.color = (score === inputs.length) ? "#166534" : "#991b1b";
+    }
+</script>
+
+</body>
+</html>
