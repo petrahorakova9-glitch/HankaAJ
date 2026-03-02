@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompletný Test: Umelecké Prostriedky</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 950px; margin: 20px auto; padding: 20px; background-color: #f4f7f6; color: #333; }
+        .section { background: white; padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+        h2 { color: #d81b60; border-bottom: 2px solid #fce4ec; padding-bottom: 10px; margin-top: 0; }
+        .instructions { font-style: italic; color: #666; margin-bottom: 20px; }
+        
+        .quiz-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .quiz-table th { text-align: left; padding: 10px; border-bottom: 2px solid #eee; color: #888; font-size: 0.9em; text-transform: uppercase; }
+        .quiz-table td { padding: 10px; border-bottom: 1px solid #f0f0f0; }
+        
+        select { padding: 8px; border-radius: 6px; border: 1px solid #ddd; width: 100%; cursor: pointer; transition: all 0.3s; font-size: 0.95em; }
+        
+        .correct { background-color: #c8e6c9 !important; border-color: #4caf50 !important; color: #1b5e20; }
+        .incorrect { background-color: #ffcdd2 !important; border-color: #f44336 !important; color: #b71c1c; }
+        .answer-display { font-weight: bold; color: #d81b60; display: none; font-size: 0.95em; }
+        
+        .stanza { font-style: italic; background: #fff5f8; padding: 15px; border-left: 5px solid #d81b60; margin: 15px 0; border-radius: 0 8px 8px 0; font-size: 1.05em; line-height: 1.5; }
+        .rhyme-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; margin-top: 10px; padding-bottom: 15px; }
+        
+        .btn-container { margin-top: 20px; text-align: center; }
+        button { background-color: #d81b60; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 1.1em; transition: background 0.3s; font-weight: bold; width: 100%; }
+        button:hover { background-color: #ad1457; }
+    </style>
+</head>
+<body>
+
+    <h1>Umelecké Prostriedky ♡♡</h1>
+
+    <div class="section" id="section-vocab">
+        <h2>1. Urči umelecké jazykové prostriedky</h2>
+        <p class="instructions">Vyber správny pojem a klikni na tlačidlo pod tabuľkou:</p>
+
+        <table class="quiz-table">
+            <thead>
+                <tr>
+                    <th style="width: 40%;">Umelecký výraz</th>
+                    <th style="width: 30%;">Tvoja voľba</th>
+                    <th style="width: 30%;">Správna odpoveď</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="item-row" data-answer="prirovnanie"><td>zlý ani čert</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">prirovnanie</span></td></tr>
+                <tr class="item-row" data-answer="zdrobnenina"><td>domček</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">zdrobnenina</span></td></tr>
+                <tr class="item-row" data-answer="metafora"><td>hryzie ho svedomie</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">metafora</span></td></tr>
+                <tr class="item-row" data-answer="personifikácia"><td>vietor mi šepkal</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">personifikácia</span></td></tr>
+                <tr class="item-row" data-answer="metafora"><td>cesta života</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">metafora</span></td></tr>
+                <tr class="item-row" data-answer="metafora"><td>líca plné ruží</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">metafora</span></td></tr>
+                <tr class="item-row" data-answer="prirovnanie"><td>pekný sťa obrázok</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">prirovnanie</span></td></tr>
+                <tr class="item-row" data-answer="personifikácia"><td>kniha ma privolala</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">personifikácia</span></td></tr>
+                <tr class="item-row" data-answer="metafora"><td>oceán smiechu</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">metafora</span></td></tr>
+                <tr class="item-row" data-answer="epiteton"><td>zlatisté since</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">epiteton</span></td></tr>
+                <tr class="item-row" data-answer="prirovnanie"><td>tvrdý jak kameň</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">prirovnanie</span></td></tr>
+                <tr class="item-row" data-answer="zdrobnenina"><td>mačiatko</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">zdrobnenina</span></td></tr>
+                <tr class="item-row" data-answer="metafora"><td>zamilovať sa po uši</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">metafora</span></td></tr>
+                <tr class="item-row" data-answer="personifikácia"><td>hviezdy si spievajú</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">personifikácia</span></td></tr>
+                <tr class="item-row" data-answer="epiteton"><td>čarovná jeseň</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">epiteton</span></td></tr>
+                <tr class="item-row" data-answer="zdrobnenina"><td>dievčatko</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">zdrobnenina</span></td></tr>
+                <tr class="item-row" data-answer="personifikácia"><td>kvety sa zobudili</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">personifikácia</span></td></tr>
+                <tr class="item-row" data-answer="metafora"><td>oči nočnej oblohy</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">metafora</span></td></tr>
+                <tr class="item-row" data-answer="prirovnanie"><td>spí ako drevo</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">prirovnanie</span></td></tr>
+                <tr class="item-row" data-answer="metafora"><td>kvapka nádeje</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">metafora</span></td></tr>
+                <tr class="item-row" data-answer="prirovnanie"><td>zmizol sťa duch</td><td><select><option value="">-- Vyber --</option><option>epiteton</option><option>metafora</option><option>personifikácia</option><option>prirovnanie</option><option>zdrobnenina</option></select></td><td><span class="answer-display">prirovnanie</span></td></tr>
+            </tbody>
+        </table>
+        <div class="btn-container">
+            <button onclick="validate('section-vocab')">OVERIŤ JAZYKOVÉ PROSTRIEDKY</button>
+        </div>
+    </div>
+
+    <div class="section" id="section-rhyme">
+        <h2>2. Urči druh rýmov</h2>
+        <p class="instructions">Urči rýmovú schému pre každú ukážku:</p>
+
+        <div class="item-row" data-answer="obkročný">
+            <div class="stanza">V korune stromov vietor hrá,<br>na lístí iskrí ranná rosa,<br>v diaľke sa zablysne obloha bosá,<br>a zem sa z úsvitu prebúdzať má.</div>
+            <div class="rhyme-row">
+                <select><option value="">-- Vyber druh rýmu --</option><option value="združený">združený (aabb)</option><option value="obkročný">obkročný (abba)</option><option value="prerývaný">prerývaný (abcb)</option></select>
+                <span class="answer-display">Správne: obkročný (abba)</span>
+            </div>
+        </div>
+
+        <div class="item-row" data-answer="združený">
+            <div class="stanza">Na nebi svieti slnko jasné,<br>v poli sa zlatí zrno krásne.<br>Včielky si nosia sladký med,<br>a deti kričia: „Leto späť!"</div>
+            <div class="rhyme-row">
+                <select><option value="">-- Vyber druh rýmu --</option><option value="združený">združený (aabb)</option><option value="obkročný">obkročný (abba)</option><option value="prerývaný">prerývaný (abcb)</option></select>
+                <span class="answer-display">Správne: združený (aabb)</span>
+            </div>
+        </div>
+
+        <div class="item-row" data-answer="prerývaný">
+            <div class="stanza">Na stole sviečka ticho horí,<br>plamienok v noci hrá,<br>a srdce v tichu bije,<br>že niekto rád ma má.</div>
+            <div class="rhyme-row">
+                <select><option value="">-- Vyber druh rýmu --</option><option value="združený">združený (aabb)</option><option value="obkročný">obkročný (abba)</option><option value="prerývaný">prerývaný (abcb)</option></select>
+                <span class="answer-display">Správne: prerývaný (abcb)</span>
+            </div>
+        </div>
+
+        <div class="item-row" data-answer="obkročný">
+            <div class="stanza">Po lúke kráča dievča mladé,<br>vo vlasoch slnko, úsmev v tvári,<br>v diaľke sa stráca ako voda v pohári,<br>len vtáča spieva piesne chladné.</div>
+            <div class="rhyme-row">
+                <select><option value="">-- Vyber druh rýmu --</option><option value="združený">združený (aabb)</option><option value="obkročný">obkročný (abba)</option><option value="prerývaný">prerývaný (abcb)</option></select>
+                <span class="answer-display">Správne: obkročný (abba)</span>
+            </div>
+        </div>
+
+        <div class="item-row" data-answer="prerývaný">
+            <div class="stanza">Nad riekou visí tichý mrak,<br>voda sa striebrom vlní,<br>a starý most sa v spánku kýva,<br>kým ľudské srdce vyplní.</div>
+            <div class="rhyme-row">
+                <select><option value="">-- Vyber druh rýmu --</option><option value="združený">združený (aabb)</option><option value="obkročný">obkročný (abba)</option><option value="prerývaný">prerývaný (abcb)</option></select>
+                <span class="answer-display">Správne: prerývaný (abcb)</span>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button onclick="validate('section-rhyme')">OVERIŤ DRUHY RÝMOV</button>
+        </div>
+    </div>
+
+    <script>
+        function validate(sectionId) {
+            const section = document.getElementById(sectionId);
+            const rows = section.querySelectorAll('.item-row');
+            
+            rows.forEach(row => {
+                const select = row.querySelector('select');
+                const display = row.querySelector('.answer-display');
+                const correct = row.getAttribute('data-answer');
+                
+                // Zobraziť správnu odpoveď
+                if (display) {
+                    display.style.display = 'inline-block';
+                }
+                
+                // Zafarbiť výber podľa správnosti
+                if (select.value === correct) {
+                    select.classList.remove('incorrect');
+                    select.classList.add('correct');
+                } else {
+                    select.classList.remove('correct');
+                    select.classList.add('incorrect');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
