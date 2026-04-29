@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktívne Diktáty - Kompaktná verzia</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; max-width: 900px; margin: 20px auto; padding: 0 20px; background-color: #f0f2f5; color: #333; }
+        h1 { text-align: center; color: #1a2a6c; margin-bottom: 30px; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 5px; background: #dfe4ea; padding: 10px 10px 0 10px; border-radius: 8px 8px 0 0; }
+        .tab-link { padding: 8px 16px; border: none; outline: none; background: #ced6e0; transition: 0.3s; font-weight: bold; cursor: pointer; border-radius: 5px 5px 0 0; }
+        .tab-link:hover { background: #a4b0be; }
+        .tab-link.active { background: #fff; color: #1a2a6c; border-bottom: 3px solid #1e3799; }
+        .tab-content { display: none; background: #fff; padding: 30px; border-radius: 0 0 8px 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid #ddd; }
+        .tab-content.active { display: block; }
+        .diktat-text { font-size: 1.25rem; line-height: 2.5; letter-spacing: 0.2px; }
+        
+        /* Odstránenie medzier okolo políčka */
+        .gap-wrap { display: inline; margin: 0; padding: 0; }
+        
+        select { 
+            margin: 0; /* Úplné odstránenie vonkajšej medzery */
+            padding: 0 1px; 
+            font-size: 0.85rem; 
+            border: 1.5px solid #ccc; 
+            border-radius: 2px; 
+            background: #fff; 
+            cursor: pointer; 
+            -webkit-appearance: none; 
+            -moz-appearance: none; 
+            appearance: none; 
+            min-width: 20px; 
+            text-align: center; 
+            font-weight: bold;
+            vertical-align: baseline; /* Zarovnanie na základňu písma */
+            position: relative;
+            top: -1px; /* Jemné doladenie výšky k okolitým písmenám */
+        }
+        
+        select:focus { border-color: #1e3799; outline: none; }
+        select.wrong { background-color: #fab1a0; border-color: #ff7675; color: #d63031; }
+        select.correct { background-color: #55efc4; border-color: #00b894; color: #006266; }
+        
+        .feedback { color: #d63031; font-weight: bold; font-size: 0.85rem; margin: 0 1px; text-decoration: underline; vertical-align: baseline; }
+        
+        .controls { margin-top: 40px; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+        button.check-btn { background-color: #1e3799; color: white; border: none; padding: 12px 35px; font-size: 1rem; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        button.check-btn:hover { background-color: #0c2461; }
+    </style>
+</head>
+<body>
+
+<h1>Interaktívne precvičovanie diktátov</h1>
+
+<div class="tabs" id="tab-container"></div>
+<div id="content-container"></div>
+
+<script>
+    // Obsah z dokumentu Príprava na kontrolný diktát 6R slovesá.docx
+    const diktaty = [
+        "Filip sa dnes veľmi ponáhľal zo školy domov. Rýchlo si urobil domáce úlohy a čakal na príchod mamy. Teší sa na oslavu jej narodenín. Umyl riad a povysával obývačku. V záhradke odtrhol tulipány a vložil ich do vázy. Stôl prikryl bielym obrusom. Do stredu položil vázu s kvetmi. Potom ešte vyniesol kôš s odpadkami a vyvetral byt. Zrazu zistil, že pre mamu nemá darček. Čo jej len kúpi?",
+        "Na začiatku hodiny si urobíme rozcvičku. Kto chýba? Karol, rýchle sa postav do radu! Začnime nádychom! Vzpažte a pomaly ruky spusťte k telu! Vydýchnite! V precvičovaní pokračuje Ivan. Neboj sa, minule ti to šlo dobre. Pozerajte na Ivana a počúvajte jeho pokyny! Na záver pridaj cviky na posilnenie horných končatín! Dnes budeme hrať totiž basketbal.",
+        "Moja mama na dedine veľmi trpí. Otec stále lozí po lese a ona s kamoškou by radšej nakupovali v meste. Občas sa jej mihne v očiach iskra a vtedy sa jej vynorí spomienka na mesto. Mrzí ju, že sa presťahovali vlani na dedinu. Chceli mať s otcom dom, ale nedomysleli dôsledky. Mama je šťastná, iba keď kropí kvety, keď vidí, ako sa im darí a ako kvitnú. Nad otcom mykne plecom. My so sestrou sme si na dedine zvykli. Iba v zime je akosi voľnejšie. Aj otec oddychuje a je pokojnejší. Zakúri nám v krbe a uvarí čaj. Ani by ste si nepomysleli, ako sa zase zmení po príchode jari. Neveríte mi? Príďte nás navštíviť!",
+        "Martin sa vrátil domov zo školy. Na stole našiel na veľkom papieri matkinou rukou napísaný odkaz. Večer oslávime otcove meniny. Musíme niečo pripraviť. Umy riad a pozametaj kuchyňu! Povysávaj celý byt! V obývačke utri aj prach a veľký stôl prikry novým bielym obrusom! Keď poupratuješ, nezabudni ísť na nákupy. Vtedy mu zišlo na um, že pre otca nemá darček. Čo mu len kúpi? Zašiel do kníhkupectva. Pretože sa otec zaoberá históriou, vybral mu knihu Dejiny sveta, ktorú vydalo vydavateľstvo Mladé letá. Otca príjemne prekvapili a bol veľmi dojatý.",
+        "Filip sa dnes veľmi ponáhľal zo školy domov. Rýchlo si urobil domáce úlohy a čakal na príchod mamy. Teší sa na oslavu jej narodenín. Keby mal čas, umyl by riad a povysával by obývačku. V záhradke rýchlo odtrhol tulipány a vložil ich do vázy. Stôl prikryl bielym obrusom. Do stredu položil vázu s kvetmi. Potom ešte vyniesol kôš s odpadkami a vyvetral byt. Zrazu zistil, že pre mamu nemá darček. Keby mal peniaze, kúpil by jej niečo pekné. Čo jej len teraz daruje? Filip, veď jej niečo vyrob!"
+    ];
+
+    const targetChars = /[iyíý]/gi;
+
+    function init() {
+        const tabContainer = document.getElementById('tab-container');
+        const contentContainer = document.getElementById('content-container');
+
+        diktaty.forEach((text, index) => {
+            const btn = document.createElement('button');
+            btn.className = `tab-link ${index === 0 ? 'active' : ''}`;
+            btn.innerText = `Diktát ${index + 1}`;
+            btn.onclick = () => openTab(index);
+            tabContainer.appendChild(btn);
+
+            const div = document.createElement('div');
+            div.id = `diktat-${index}`;
+            div.className = `tab-content ${index === 0 ? 'active' : ''}`;
+
+            // Úprava: Žiadne medzery v šablóne medzi tagmi
+            const processedText = text.replace(targetChars, (match) => {
+                return `<span class="gap-wrap"><select data-correct="${match}"><option value=""></option><option value="i">i</option><option value="í">í</option><option value="y">y</option><option value="ý">ý</option></select></span>`;
+            });
+
+            div.innerHTML = `
+                <div class="diktat-text">${processedText}</div>
+                <div class="controls">
+                    <button class="check-btn" onclick="checkAnswers(${index})">Skontrolovať výsledky</button>
+                </div>
+            `;
+            contentContainer.appendChild(div);
+        });
+    }
+
+    function openTab(index) {
+        document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-link')[index].classList.add('active');
+        document.getElementById(`diktat-${index}`).classList.add('active');
+    }
+
+    function checkAnswers(index) {
+        const container = document.getElementById(`diktat-${index}`);
+        const selects = container.querySelectorAll('select');
+
+        selects.forEach(select => {
+            const correctChar = select.getAttribute('data-correct').toLowerCase();
+            const selectedChar = select.value.toLowerCase();
+            const parent = select.parentNode;
+            const oldFeedback = parent.querySelector('.feedback');
+            if (oldFeedback) oldFeedback.remove();
+
+            if (selectedChar === correctChar && selectedChar !== "") {
+                select.className = 'correct';
+            } else {
+                select.className = 'wrong';
+                const feedback = document.createElement('span');
+                feedback.className = 'feedback';
+                feedback.innerText = select.getAttribute('data-correct');
+                parent.appendChild(feedback);
+            }
+        });
+    }
+
+    init();
+</script>
+
+</body>
+</html>
