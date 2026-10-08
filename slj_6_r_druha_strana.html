@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interaktívny test zo slovenského jazyka - 2. časť</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 p-4 md:p-8">
+
+  <div class="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-200">
+    
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-6 sm:p-8">
+      <h1 class="text-2xl sm:text-3xl font-bold">Test zo slovenského jazyka – 2. časť</h1>
+      <p class="mt-2 text-indigo-100 text-sm sm:text-base">Slovesá, slovesné spôsoby, syntax, rozprávanie a vetné členy.</p>
+    </header>
+
+    <!-- Content Area -->
+    <main class="p-6 sm:p-8">
+      
+      <!-- Quiz Container -->
+      <div id="quiz-container">
+        <!-- Progress Bar -->
+        <div class="mb-6">
+          <div class="flex justify-between text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            <span id="question-number">Otázka 1 zo 10</span>
+            <span id="score-counter">Skóre: 0</span>
+          </div>
+          <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+            <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300 w-0"></div>
+          </div>
+        </div>
+
+        <!-- Question Title -->
+        <h2 id="question-text" class="text-lg sm:text-xl font-semibold mb-2 text-slate-900">
+          Načítavam otázku...
+        </h2>
+        <p id="question-subtitle" class="text-sm text-slate-500 mb-6 hidden">
+          (Označte všetky správne odpovede)
+        </p>
+
+        <!-- Options Container -->
+        <div id="options-container" class="space-y-3"></div>
+
+        <!-- Rationale / Feedback Box -->
+        <div id="feedback-container" class="mt-6 p-4 rounded-xl hidden transition-all duration-300">
+          <p id="feedback-text" class="text-sm font-medium whitespace-pre-line"></p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex justify-end gap-3">
+          <button id="submit-btn" onclick="submitMultipleAnswers()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-6 rounded-xl transition duration-200">
+            Potvrdiť odpovede
+          </button>
+          <button id="next-btn" onclick="nextQuestion()" class="hidden bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-6 rounded-xl transition duration-200">
+            Ďalšia otázka &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Screen -->
+      <div id="results-container" class="hidden text-center py-8">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full mb-6">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 10 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-2">Test je dokončený!</h2>
+        <p class="text-slate-600 mb-6">Tu sú vaše výsledky:</p>
+        
+        <div class="bg-slate-100 rounded-xl p-6 max-w-sm mx-auto mb-8">
+          <span id="final-score" class="text-4xl font-extrabold text-indigo-600">0 / 0</span>
+          <p id="final-percentage" class="text-sm font-medium text-slate-500 mt-1"></p>
+        </div>
+
+        <button onclick="restartQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-xl transition duration-200">
+          Skúsiť znova
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Ktoré z nasledujúcich slovies sú VŽDY ZVRATNÉ? (Označte všetky správne)",
+        multiple: true,
+        options: [
+          { text: "smiať sa", isCorrect: true, rationale: "Sloveso 'smiať sa' neexistuje v nezvratnej podobe bez 'sa'." },
+          { text: "umyť sa", isCorrect: false, rationale: "'Umyť sa' je zvratné sloveso, ale existuje aj jeho nezvratná forma 'umyť' (napr. umyť okno)." },
+          { text: "všimnúť si", isCorrect: true, rationale: "Sloveso 'všimnúť si' je taktiež vždy zvratné." },
+          { text: "písať si", isCorrect: false, rationale: "Sloveso 'písať si' má aj svoju nezvratnú formu 'písať' (písať list)." }
+        ]
+      },
+      {
+        question: "V ktorých osobách sa tvorí ROZKAZOVACÍ SPÔSOB slovesa?",
+        multiple: false,
+        options: [
+          { text: "V 1., 2. a 3. osobe jednotného aj množného čísla", isCorrect: false, rationale: "V rozkazovacom spôsobe nie je možné vydať rozkaz v 1. osobe jednotného čísla ('ja') ani v 3. osobe ('on/oni')." },
+          { text: "V 2. osobe jednotného čísla a v 1. aj 2. osobe množného čísla", isCorrect: true, rationale: "Rozkazovací spôsob tvoríme pre: ty (daj!), my (dajme!), vy (dajte!)." },
+          { text: "Iba v 2. osobe jednotného čísla", isCorrect: false, rationale: "Rozkazovací spôsob má tvary aj pre množné číslo (1. a 2. osoba)." },
+          { text: "V 3. osobe jednotného aj množného čísla", isCorrect: false, rationale: "V 3. osobe sa rozkazovací spôsob netvorí." }
+        ]
+      },
+      {
+        question: "Ktoré prvky a slová vyjadrujú PODMIEŇOVACÍ spôsob slovesa? (Označte všetky správne)",
+        multiple: true,
+        options: [
+          { text: "Sloveso v minulom čase + častica 'by'", isCorrect: true, rationale: "Podmieňovací spôsob sa tvorí tvarom minulého času a častice 'by' (napr. dokázal by)." },
+          { text: "Častice a spojky ako 'aby', 'keby', 'žeby'", isCorrect: true, rationale: "Tieto slová sú príznačné pre podmieňovací spôsob." },
+          { text: "Prípony s výkričníkom", isCorrect: false, rationale: "Výkričník a rozkazovacie prípony charakterizujú rozkazovací spôsob." },
+          { text: "Iba prítomný čas bez častíc", isCorrect: false, rationale: "Oznamuje skutočný dej v oznamovacom spôsobe." }
+        ]
+      },
+      {
+        question: "Čo vystihuje DYNAMICKÝ OPIS?",
+        multiple: false,
+        options: [
+          { text: "Opis stálej povahy a vlastností osoby", isCorrect: false, rationale: "To je charakteristika osoby." },
+          { text: "Opis opakovanej činnosti, dejov alebo pracovného postupu", isCorrect: true, rationale: "Dynamický opis zachytáva priebeh opakujúcich sa činností (návody, pracovný postup, umytie autobusu)." },
+          { text: "Vymenovanie vonkajších čŕt, ktoré sa nemenia", isCorrect: false, rationale: "To je statický opis." },
+          { text: "Doslovný zápis reči postavy v úvodzovkách", isCorrect: false, rationale: "To je priama reč." }
+        ]
+      },
+      {
+        question: "Ktorá z nasledujúcich možností správne zachytáva 5 FÁZ VNÚTORNEJ KOMPOZÍCIE rozprávania v správnom poradí?",
+        multiple: false,
+        options: [
+          { text: "Úvod → Vyvrcholenie → Zápletka → Obrat → Rozuzlenie", isCorrect: false, rationale: "Zápletka predchádza vyvrcholeniu." },
+          { text: "Úvod → Zápletka → Vyvrcholenie → Obrat → Rozuzlenie", isCorrect: true, rationale: "Päť fáz kompozície ide za sebou presne takto: Úvod, Zápletka, Vyvrcholenie, Obrat a Rozuzlenie." },
+          { text: "Zápletka → Úvod → Obrat → Vyvrcholenie → Rozuzlenie", isCorrect: false, rationale: "Úvod musí stáť na začiatku." },
+          { text: "Úvod → Zápletka → Obrat → Vyvrcholenie → Rozuzlenie", isCorrect: false, rationale: "Vyvrcholenie nastáva pred nečakaným zvratom (obratom)." }
+        ]
+      },
+      {
+        question: "Na ktoré otázky sa pýtame pri PRÍSLOVKOCH PRÍČINY?",
+        multiple: false,
+        options: [
+          { text: "Kde? Kam? Odkiaľ?", isCorrect: false, rationale: "Tieto otázky patria príslovkám miesta." },
+          { text: "Kedy? Odkedy? Ako často?", isCorrect: false, rationale: "Tieto otázky patria príslovkám času." },
+          { text: "Ako? Akým spôsobom?", isCorrect: false, rationale: "Tieto otázky patria príslovkám spôsobu." },
+          { text: "Prečo? Pre akú príčinu?", isCorrect: true, rationale: "Na príslovky príčiny sa pýtame 'Prečo? Pre akú príčinu?' (napr. naschvál, omylom)." }
+        ]
+      },
+      {
+        question: "V ktorých z nasledujúcich prípadov dochádza k VOKALIZÁCII predložky? (Označte všetky správne)",
+        multiple: true,
+        options: [
+          { text: "zo zimy", isCorrect: true, rationale: "Predložka 'z' sa vokalizovala na 'zo' pred slovom 'zimy' (podobná spoluhláska)." },
+          { text: "s Petrom", isCorrect: false, rationale: "Tu vokalizácia nenastáva (píšeme 's Petrom', nie 'so Petrom')." },
+          { text: "vo štvrtok", isCorrect: true, rationale: "Predložka 'v' sa vokalizovala na 'vo'." },
+          { text: "cezo mňa", isCorrect: true, rationale: "Pred tvarmi zámena 'ja' (mňa, mne, mnou) sa predložky zakončené na spoluhlásku vokalizujú." }
+        ]
+      },
+      {
+        question: "Medzi aké neohybné slovné druhy patria slová 'Dovidenia!', 'Ahoj!' a 'Vitaj!'?",
+        multiple: false,
+        options: [
+          { text: "Príslovky", isCorrect: false, rationale: "Príslovky vyjadrujú okolnosti a vlastnosti deja a rozvíjajú slovesá." },
+          { text: "Citoslovcia", isCorrect: true, rationale: "Vyjadrujú city, vôľu, pozdravy alebo napodobňujú zvuky." },
+          { text: "Predložky", isCorrect: false, rationale: "Predložky nejašia pozdravy a viažu sa s pádmi." },
+          { text: "Zámená", isCorrect: false, rationale: "Zámená sú ohybný slovný druh." }
+        ]
+      },
+      {
+        question: "V ktorej z viet sa nachádza SLOVESNO-MENNÝ prísudok? (Označte všetky správne)",
+        multiple: true,
+        options: [
+          { text: "Pato je kamoš.", isCorrect: true, rationale: "Tvorí ho neplnovýznamové sloveso 'byť' + podstatné meno 'kamoš'." },
+          { text: "Pato opravuje pero.", isCorrect: false, rationale: "Ide o jednoduchý slovesný prísudok vyjadrený plnovýznamovým slovesom." },
+          { text: "Pato je šikovný.", isCorrect: true, rationale: "Tvorí ho neplnovýznamové sloveso 'byť' + prídavné meno 'šikovný'." },
+          { text: "Pato začal opravovať pero.", isCorrect: false, rationale: "Ide o slovesný prísudok (neplnovýznamové sloveso + neurčitok plnovýznamového slovesa)." }
+        ]
+      },
+      {
+        question: "Aký je rozdiel medzi ÚPLNOU a NEÚPLNOU dvojčlennou vetou?",
+        multiple: false,
+        options: [
+          { text: "Úplná veta má iba podmet, neúplná iba prísudok.", isCorrect: false, rationale: "Obe musia mať prisudzovací sklad." },
+          { text: "Úplná veta má vyjadrený podmet, neúplná veta má podmet nevyjadrený (zamlčaný).", isCorrect: true, rationale: "Napr. 'Radka číta knihu' (úplná) vs. 'Číta knihu' (neúplná - zamlčaný podmet 'Ona')." },
+          { text: "Úplná veta obsahuje príslovky, neúplná ich neobsahuje.", isCorrect: false, rationale: "Príslovky nerozhodujú o úplnosti dvojčlennej vety." },
+          { text: "Úplná veta sa používa v rozprávaní, neúplná v opise.", isCorrect: false, rationale: "Obe sa voľne používajú v akomkoľvek slohovom útvare." }
+        ]
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedIndices = [];
+
+    function initQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      selectedIndices = [];
+      const resultsComp = document.getElementById('results-container');
+      const quizComp = document.getElementById('quiz-container');
+      if (resultsComp && quizComp) {
+        resultsComp.classList.add('hidden');
+        quizComp.classList.remove('hidden');
+        showQuestion();
+      }
+    }
+
+    function showQuestion() {
+      selectedIndices = [];
+      const q = questions[currentQuestionIndex];
+      
+      document.getElementById('question-number').innerText = `Otázka ${currentQuestionIndex + 1} zo ${questions.length}`;
+      document.getElementById('score-counter').innerText = `Skóre: ${score}`;
+      const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
+      document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+      document.getElementById('question-text').innerText = q.question;
+      
+      const subtitle = document.getElementById('question-subtitle');
+      if (q.multiple) {
+        subtitle.classList.remove('hidden');
+      } else {
+        subtitle.classList.add('hidden');
+      }
+
+      const feedbackContainer = document.getElementById('feedback-container');
+      feedbackContainer.classList.add('hidden');
+      feedbackContainer.className = "mt-6 p-4 rounded-xl hidden transition-all duration-300";
+      
+      document.getElementById('next-btn').classList.add('hidden');
+      
+      const submitBtn = document.getElementById('submit-btn');
+      if (q.multiple) {
+        submitBtn.classList.remove('hidden');
+      } else {
+        submitBtn.classList.add('hidden');
+      }
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.id = `opt-btn-${index}`;
+        btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 transition-all duration-200 font-medium flex items-start gap-3";
+        
+        const badge = document.createElement('span');
+        badge.id = `badge-${index}`;
+        badge.className = "inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-600 text-xs font-bold flex-shrink-0 mt-0.5";
+        badge.innerText = String.fromCharCode(65 + index);
+        
+        const textSpan = document.createElement('span');
+        textSpan.className = "flex-1 text-slate-700";
+        textSpan.innerText = opt.text;
+
+        btn.appendChild(badge);
+        btn.appendChild(textSpan);
+        
+        if (q.multiple) {
+          btn.onclick = () => toggleMultipleOption(index);
+        } else {
+          btn.onclick = () => selectSingleOption(index);
+        }
+
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function toggleMultipleOption(index) {
+      const pos = selectedIndices.indexOf(index);
+      const btn = document.getElementById(`opt-btn-${index}`);
+      
+      if (pos > -1) {
+        selectedIndices.splice(pos, 1);
+        btn.classList.remove('border-indigo-600', 'bg-indigo-50');
+      } else {
+        selectedIndices.push(index);
+        btn.classList.add('border-indigo-600', 'bg-indigo-50');
+      }
+    }
+
+    function selectSingleOption(index) {
+      selectedIndices = [index];
+      evaluateAnswer();
+    }
+
+    function submitMultipleAnswers() {
+      if (selectedIndices.length === 0) {
+        alert("Prosím, vyberte aspoň jednu odpoveď.");
+        return;
+      }
+      evaluateAnswer();
+    }
+
+    function evaluateAnswer() {
+      const q = questions[currentQuestionIndex];
+      const optionsContainer = document.getElementById('options-container');
+      const buttons = optionsContainer.children;
+
+      document.getElementById('submit-btn').classList.add('hidden');
+
+      let isFullyCorrect = true;
+      q.options.forEach((opt, idx) => {
+        const isSelected = selectedIndices.includes(idx);
+        if ((opt.isCorrect && !isSelected) || (!opt.isCorrect && isSelected)) {
+          isFullyCorrect = false;
+        }
+      });
+
+      if (isFullyCorrect) {
+        score++;
+        document.getElementById('score-counter').innerText = `Skóre: ${score}`;
+      }
+
+      q.options.forEach((opt, idx) => {
+        const btn = buttons[idx];
+        btn.disabled = true;
+        btn.onclick = null;
+        btn.classList.remove('hover:border-indigo-400', 'hover:bg-indigo-50/50', 'border-indigo-600', 'bg-indigo-50');
+        
+        const isSelected = selectedIndices.includes(idx);
+
+        if (opt.isCorrect) {
+          btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+          document.getElementById(`badge-${idx}`).className = "inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-200 text-emerald-800 text-xs font-bold flex-shrink-0 mt-0.5";
+        } else if (isSelected && !opt.isCorrect) {
+          btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+          document.getElementById(`badge-${idx}`).className = "inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-200 text-rose-800 text-xs font-bold flex-shrink-0 mt-0.5";
+        } else {
+          btn.classList.add('opacity-50');
+        }
+      });
+
+      const feedbackContainer = document.getElementById('feedback-container');
+      const feedbackText = document.getElementById('feedback-text');
+      
+      let explanation = isFullyCorrect ? "✅ Správne!\n\n" : "❌ Nesprávne alebo neúplne.\n\n";
+      explanation += "Vysvetlenie k možnostiam:\n" + q.options.map((opt, i) => `${String.fromCharCode(65 + i)}: ${opt.rationale}`).join("\n");
+      
+      feedbackText.innerText = explanation;
+      feedbackContainer.classList.remove('hidden');
+
+      if (isFullyCorrect) {
+        feedbackContainer.classList.add('bg-emerald-50', 'border', 'border-emerald-200', 'text-emerald-800');
+      } else {
+        feedbackContainer.classList.add('bg-rose-50', 'border', 'border-rose-200', 'text-rose-800');
+      }
+
+      document.getElementById('next-btn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        showQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('quiz-container').classList.add('hidden');
+      document.getElementById('results-container').classList.remove('hidden');
+      
+      document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
+      const percentage = Math.round((score / questions.length) * 100);
+      document.getElementById('final-percentage').innerText = `Úspešnosť: ${percentage}%`;
+    }
+
+    function restartQuiz() {
+      initQuiz();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initQuiz);
+    } else {
+      initQuiz();
+    }
+  </script>
+</body>
+</html>
